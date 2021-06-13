@@ -1,0 +1,287 @@
+#pragma once
+
+void butunSagMenuYaziRenkleriVarsayilan();
+
+class YaziYazdir {
+public:
+	double xKaydirma;
+	double yKaydirma;
+	double zKaydirma;
+	double kirmizi = 5.0;
+	double yesil = 5.0;
+	double mavi = 5.0;
+
+	GLubyte yazi[];
+
+
+
+	void isle(double xKaydirma, double yKaydirma, double zKaydirma, double kirmizi, double yesil, double mavi, GLubyte yazi[]) {
+		this->xKaydirma = xKaydirma;
+		this->yKaydirma = yKaydirma;
+		this->zKaydirma = zKaydirma;
+		this->kirmizi = kirmizi;
+		this->yesil = yesil;
+		this->mavi = mavi;
+		this->yazi[100] = yazi[100];
+		GLint ay, k;
+		glLoadIdentity();
+		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		glTranslatef(xKaydirma, yKaydirma, zKaydirma);
+		// Yazýyý yazdýr;
+		glColor3f(kirmizi, yesil, mavi);
+
+		xPiksely = 0;
+		for (ay = 0; ay < 320; ay++) {
+
+			glRasterPos3f(xPiksely, yPiksely, zPiksely);
+			for (k = 100 * ay; k < 40 * ay + 40; k++)
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, yazi[k]);
+			xPiksely += 1;
+		}
+	}
+};
+
+
+
+YaziYazdir sifirlaYazisiS;
+YaziYazdir renklerYazisiS;
+YaziYazdir kameraHareketiYazisiS;
+YaziYazdir cikisYazisiS;
+
+void yaziYazdir(double xKaydirma, double yKaydirma, double zKaydirma, double kirmizi, double yesil, double mavi, GLubyte yazi[]);
+
+
+void menuCizgileri() {
+	// MENÜ DÝRDÖRTGENÝ
+	glBegin(GL_QUADS);
+
+	glColor3f(0.2, 0.5, 1);
+	glVertex3f(0, 0, 0);
+	glColor3f(0.7, 0.5, 1);
+	glVertex3f(2.5, 0, 0);
+	glColor3f(0.2, 0.8, 1);
+	glVertex3f(2.5, 3.8, 0);
+	glColor3f(0.2, 0.7, 0.8);
+	glVertex3f(0, 3.8, 0);
+	glEnd();
+
+	// RENK KARELERÝ:
+	// Kýrmýzý
+	glLoadIdentity();
+	glTranslatef(0.85, 0.1, -2.0);
+	glBegin(GL_QUADS);
+	glColor3f(kirmizi1, 0.0, 0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0.06, 0, 0);
+	glVertex3f(0.06, 0.06, 0);
+	glVertex3f(0, 0.06, 0);
+	glEnd();
+	// Yeþil
+	glLoadIdentity();
+	glTranslatef(0.95, 0.1, -2.0);
+	glBegin(GL_QUADS);
+	glColor3f(0.0, yesil1, 0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0.06, 0, 0);
+	glVertex3f(0.06, 0.06, 0);
+	glVertex3f(0, 0.06, 0);
+	glEnd();
+	// Mavi
+	glLoadIdentity();
+	glTranslatef(1.05, 0.1, -2.0);
+	glBegin(GL_QUADS);
+	glColor3f(0.0, 0.0, mavi1);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0.06, 0, 0);
+	glVertex3f(0.06, 0.06, 0);
+	glVertex3f(0, 0.06, 0);
+	glEnd();
+	// Sarý
+	glLoadIdentity();
+	glTranslatef(0.85, -0.0, -2.0);
+	glBegin(GL_QUADS);
+	glColor3f(sariKirmizi, sariYesil, 0);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0.06, 0, 0);
+	glVertex3f(0.06, 0.06, 0);
+	glVertex3f(0, 0.06, 0);
+	glEnd();
+	// Magenta
+	glLoadIdentity();
+	glTranslatef(0.95, -0.0, -2.0);
+	glBegin(GL_QUADS);
+	glColor3f(magentaKirmizi, 0.0, magentaMavi);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0.06, 0, 0);
+	glVertex3f(0.06, 0.06, 0);
+	glVertex3f(0, 0.06, 0);
+	glEnd();
+	// Siyah
+	glLoadIdentity();
+	glTranslatef(1.05, -0.0, -2.0);
+	glBegin(GL_QUADS);
+	glColor3f(beyazKirmizi, beyazYesil, beyazMavi);
+	glVertex3f(0, 0, 0);
+	glVertex3f(0.06, 0, 0);
+	glVertex3f(0.06, 0.06, 0);
+	glVertex3f(0, 0.06, 0);
+	glEnd();
+	
+}
+
+void menuYazilari() {
+	// ------------ YAZI YAZDIRMA ALGORÝTMALARI -------------
+	
+	
+	
+	cikisYazisiS.isle(0.94, -0.20, 0.0, 5.0f, cikisYazisiS.yesil, 5.0f, cikisYazisi);
+	sifirlaYazisiS.isle(0.9615, -0.14, 0.0, 5.0f, 5.0f, sifirlaYazisiS.mavi, sifirlaYazisi);
+	renklerYazisiS.isle(0.9515, 0.22, 0.0, 3.0f, 3.0f, 5.0f, renklerYazisi);
+	kameraHareketiYazisiS.isle(0.90, -0.079, 0.0, 5.0f, 5.0f, kameraHareketiYazisiS.mavi, kameraHareketiYazisi);
+
+	//yaziYazdir(0.94, -0.20, 0.0, 5.0f, yaziRengi4, 5.0f, cikisYazisi);
+	
+	//yaziYazdir(0.9615, -0.14, 0.0, 5.0f, 5.0f, yaziRengi5, sifirla);
+
+
+}
+
+void kameraYazilari() {
+
+	if (onBakis) {
+		GLint ay10, k11;
+		glLoadIdentity();
+		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		glTranslatef(-0.05, +0.65, 0.0);
+		// Yazýyý yazdýr;
+		glColor3f(2.0f, 5.0f, 2.0f);
+
+		xPiksely = 0;
+		for (ay10 = 0; ay10 < 320; ay10++) {
+
+			glRasterPos3f(xPiksely, yPiksely, zPiksely);
+			for (k11 = 100 * ay10; k11 < 40 * ay10 + 40; k11++)
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, onBakisYazisi[k11]);
+			xPiksely += 1;
+		}
+		glutPostRedisplay();
+	}
+
+	if (yanBakis) {
+		GLint ay11, k12;
+		glLoadIdentity();
+		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		glTranslatef(-0.07, +0.65, 0.0);
+		// Yazýyý yazdýr;
+		glColor3f(5.0f, 5.0f, 0.0f);
+
+		xPiksely = 0;
+		for (ay11 = 0; ay11 < 320; ay11++) {
+
+			glRasterPos3f(xPiksely, yPiksely, zPiksely);
+			for (k12 = 100 * ay11; k12 < 40 * ay11 + 40; k12++)
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, yanBakisYazisi[k12]);
+			xPiksely += 1;
+		}
+		glutPostRedisplay();
+	}
+
+	if (kameraHareket) {
+		GLint ay12, k13;
+		glLoadIdentity();
+		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		glTranslatef(-0.08, +0.65, 0.0);
+		// Yazýyý yazdýr;
+		glColor3f(5.0f, 0.0f, 5.0f);
+
+		xPiksely = 0;
+		for (ay12 = 0; ay12 < 320; ay12++) {
+
+			glRasterPos3f(xPiksely, yPiksely, zPiksely);
+			for (k13 = 100 * ay12; k13 < 40 * ay12 + 40; k13++)
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, serbestKamera[k13]);
+			xPiksely += 1;
+		}
+		glutPostRedisplay();
+	}
+
+	if (carpismaTespiti) {
+		GLint ay13, k14;
+		glLoadIdentity();
+		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		glTranslatef(-0.14, +0.15, 0.0);
+		// Yazýyý yazdýr;
+		glColor3f(5.0f, 2.0f, 2.0f);
+
+		xPiksely = 0;
+		for (ay13 = 0; ay13 < 320; ay13++) {
+
+			glRasterPos3f(xPiksely, yPiksely, zPiksely);
+			for (k14 = 100 * ay13; k14 < 40 * ay13 + 40; k14++)
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, cakismaTespiti[k14]);
+			xPiksely += 1;
+		}
+		glutPostRedisplay();
+	}
+
+	if (silindirOturtmaKontrolu) {
+		GLint ay13, k14;
+		glLoadIdentity();
+		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		glTranslatef(-0.14, +0.20, 0.0);
+		// Yazýyý yazdýr;
+		glColor3f(0.0f, 5.0f, 5.0f);
+
+		xPiksely = 0;
+		for (ay13 = 0; ay13 < 320; ay13++) {
+
+			glRasterPos3f(xPiksely, yPiksely, zPiksely);
+			for (k14 = 100 * ay13; k14 < 40 * ay13 + 40; k14++)
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, silindirOturtma[k14]);
+			xPiksely += 1;
+		}
+		glutPostRedisplay();
+	}
+
+	
+	if (aktifLegoKontrolu) {
+
+
+		GLint ay13, k14;
+		glLoadIdentity();
+		gluLookAt(0.0, 0.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+		glTranslatef(-0.14, +0.23, 0.0);
+		// Yazýyý yazdýr;
+		glColor3f(5.0f, 5.0f, 2.0f);
+
+		xPiksely = 0;
+		for (ay13 = 0; ay13 < 320; ay13++) {
+
+			glRasterPos3f(xPiksely, yPiksely, zPiksely);
+			for (k14 = 100 * ay13; k14 < 40 * ay13 + 40; k14++)
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, legoSecYazisi[k14]);
+			xPiksely += 1;
+		}
+		glutPostRedisplay();
+
+
+
+	}
+	
+
+}
+
+
+void butunSagMenuYaziRenkleriVarsayilan() {
+
+	cikisYazisiS.yesil = 5.0;
+	sifirlaYazisiS.mavi = 5.0;
+	kameraHareketiYazisiS.mavi = 5.0;
+	yaziRengi = 5.0;
+	yaziRengi2 = 5.0;
+	yaziRengi3 = 5.0;
+	yaziRengi4 = 5.0;
+	yaziRengi5 = 5.0;
+	yaziRengi6 = 5.0;
+	yaziRengi8 = 5.0;
+}
